@@ -21,7 +21,7 @@ const Calendar = () => {
           </div>
         </div>
       </div>
-      <div className='border border-red-100 h-screen mt-20 bg-gray-300 w-full'>
+      <div className='border border-red-100 h-screen mt-20 bg-gray-100 w-full'>
         <TableSection />
       </div>
     </>
