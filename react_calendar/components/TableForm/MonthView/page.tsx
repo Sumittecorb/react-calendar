@@ -1,8 +1,9 @@
 import React from 'react'
 
 const MonthView = () => {
+    let weekdayData = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     var daysDate = [];
-    for (var i = 0; i <= 30; i++) {
+    for (var i = 0; i <= 41; i++) {
         var date = new Date();
         date.setDate(date.getDate() + i);
         // Extract the year, month, and day from the future date
@@ -21,6 +22,8 @@ const MonthView = () => {
         let formatted_date = t[2] + " " + t[1];
         var weekday = ["Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"];
         let day = weekday[new Date(formatted_date).getDay()];
+        console.log(">>>>>day", day);
+
         return (
             <li key={index} style={{ listStyleType: "none" }}
             // className={isActive && formatDate === formatted_date ? " datSlot active" : "datSlot"}
@@ -31,25 +34,17 @@ const MonthView = () => {
             </li>
         );
     });
-    console.log("renderDateList", renderDateList);
+    console.log("renderDateList", daysDate);
 
     return (
-        <div className='grid grid-cols-7 gap-0'>
-            <div className='border border-black p-4 items-center'>mohit</div>
-            <div className='border border-black p-4 items-center'>mohit</div>
-            <div className='border border-black p-4 items-center'>mohit</div>
-            <div className='border border-black p-4 items-center'>mohit</div>
-            <div className='border border-black p-4 items-center'>mohit</div>
-            <div className='border border-black p-4 items-center'>mohit</div>
-            <div className='border border-black p-4 items-center'>mohit</div>
-            <div className='border border-black p-4 items-center'>mohit</div>
-            <div className='border border-black p-4 items-center'>mohit</div>
-            <div className='border border-black p-4 items-center'>mohit</div>
-            <div className='border border-black p-4 items-center'>mohit</div>
-            <div className='border border-black p-4 items-center'>mohit</div>
-            <div className='border border-black p-4 items-center'>mohit</div>
-            <div className='border border-black p-4 items-center'>mohit</div>
-        </div>
+        <>
+            <div className='grid grid-cols-7 gap-0'>
+                {weekdayData?.map((item, index) => <p key={index} className=' text-center border border-black'>{item}</p>)}
+            </div>
+            <div className='grid grid-cols-7 gap-0'>
+                {daysDate?.map((day, index) => <div key={index} className='border border-black p-8 text-center'>{day}</div>)}
+            </div>
+        </>
     )
 }
 
