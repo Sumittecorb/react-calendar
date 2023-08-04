@@ -26,8 +26,6 @@ const MonthView = () => {
 
         return (
             <li key={index} style={{ listStyleType: "none" }}
-            // className={isActive && formatDate === formatted_date ? " datSlot active" : "datSlot"}
-            // onClick={() => { handleDate(formatted_date, dateList, day) }}
             >
                 <h6>{day}</h6>
                 <h6>{formatted_date}</h6>
