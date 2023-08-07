@@ -1,12 +1,14 @@
 'use client'
-import React, { useState } from 'react'
-
-const TableSection = () => {
-    const [allData, setAllData] = useState([, "12Am", "1Am", "2AM", "3Am", "4Am", "5Am", "6Am", "7Am", "8Am", "9Am", "10Am", "11Am", "12Pm", "1Pm", "2PM", "3Pm", "4Pm", "5Pm", "6Pm", "7Pm", "8Pm", "9Pm", "10Pm", "11Pm"])
-
+import MonthView from './MonthView/page'
+import SingleDayView from './SingleDayView'
+import WeekView from './Weekview/page'
+const TableSection = ({ view }: any) => {
     return (
-        <>
-        </>
+        <div className='mx-2 h-3/4 overflow-y-scroll , scrollbar-thin , scrollbar-thumb-gray-400 , and scrollbar-track-gray-300 '>
+            {view == "Week" && <WeekView />}
+            {view == "Month" && <MonthView />}
+            {view == "Day" && <SingleDayView />}
+        </div >
     )
 }
 
