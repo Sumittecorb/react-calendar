@@ -12,7 +12,7 @@ const WeekView = ({ date }: any) => {
         const month = moment(formateDate).format("MM")
         const day = moment(formateDate).format("ddd")
         const newDate = moment(formateDate).format("DD")
-        const formattedDate = `${day} ${month} / ${newDate}`;
+        const formattedDate = `${day} ${newDate} / ${month}`;
         daysDate.push(formattedDate)
     }
 

@@ -40,17 +40,16 @@ const Calendar = () => {
       setDate(formatDate)
     } else if (view == "Month" && type == "Prev") {
       let newDate = moment(date).subtract(daysInCurrentMonth, "days").format("YYYYY MM DD")
-      
       let formatDate = new Date(newDate)
-      console.log("_____", formatDate);
       setDate(formatDate)
     } else if (view == "Month" && type == "Next") {
       let newDate = moment(date).add(daysInCurrentMonth, "days").format("YYYYY MM DD")
       let formatDate = new Date(newDate)
       setDate(formatDate)
+    } else if (type == "Today") {
+      setDate(new Date())
     }
   }
-  // console.log(date,">>>>>>>>>>>>");
 
   return (
     <>
@@ -72,11 +71,11 @@ const Calendar = () => {
           </div>
           <div className='px-20'>
             <button onClick={() => { setView("Month") }}
-              className={`px-7 py-2  rounded-md ml-5 bg-slate-100 hover:bg-orange-400 ${view == "Month" ? "bg-orange-400 border border-orange-500" : "border border-slate-200"}`}>Month</button>
+              className={`px-7 py-2  rounded-md ml-5  hover:bg-orange-400 ${view == "Month" ? "bg-orange-400 border border-slate-100 " : "border border-orange-200 bg-slate-100"}`}>Month</button>
             <button onClick={() => { setView("Week") }}
-              className={`px-7 py-2  rounded-md ml-5 bg-slate-100 hover:bg-orange-400 ${view == "Week" ? "bg-orange-400 border border-orange-500" : "border border-slate-200"}`}>Week</button>
+              className={`px-7 py-2  rounded-md ml-5  hover:bg-orange-400 ${view == "Week" ? "bg-orange-400 border border-slate-100 " : "border border-orange-200 bg-slate-100"}`}>Week</button>
             <button onClick={() => { setView("Day") }}
-              className={`px-7 py-2  rounded-md ml-5 bg-slate-100 hover:bg-orange-400 ${view == "Day" ? "bg-orange-400 border border-orange-500" : "border border-slate-200"}`}>Day</button>
+              className={`px-7 py-2  rounded-md ml-5  hover:bg-orange-400 ${view == "Day" ? "bg-orange-400 border border-slate-100 " : "border border-orange-200 bg-slate-100"}`}>Day</button>
           </div>
         </div>
       </div>
