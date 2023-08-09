@@ -1,7 +1,7 @@
 import moment from 'moment'
 import React from 'react'
 
-const SingleDayView = ({date}:any) => {
+const SingleDayView = ({selectedDate}:any) => {
     const allData = ["12Am", "1Am", "2AM", "3Am", "4Am", "5Am", "6Am", "7Am", "8Am", "9Am", "10Am", "11Am", "12Pm", "1Pm", "2PM", "3Pm", "4Pm", "5Pm", "6Pm", "7Pm", "8Pm", "9Pm", "10Pm", "11Pm"]
     const Days = ["Monday"]
     return (
@@ -9,7 +9,7 @@ const SingleDayView = ({date}:any) => {
             <thead>
                 <tr className='border border-gray-200'>
                     <th className='border border-gray-200'></th>
-                    <th className='border border-gray-200'>{moment(new Date(date)).format("dddd")}</th>
+                    <th className='border border-gray-200'>{moment(new Date(selectedDate)).format("dddd")}</th>
                 </tr>
             </thead>
             <tbody >
