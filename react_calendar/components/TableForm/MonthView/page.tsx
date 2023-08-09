@@ -1,13 +1,13 @@
 import moment from 'moment';
 import React, { useEffect, useState } from 'react'
 
-const MonthView = ({ __date }: any) => {
+const MonthView = ({ selectedDate }: any) => {
     let weekdayData = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     const [dayList, setDayList] = useState<any>([])
 
     useEffect(() => {
-        getDateList(__date)
-    }, [__date])
+        getDateList(selectedDate)
+    }, [selectedDate])
     function generateDates(startDate: any, numDays: any) {
         const dates = [];
         const oneDayInMilliseconds = 24 * 60 * 60 * 1000;
@@ -53,4 +53,4 @@ const MonthView = ({ __date }: any) => {
     )
 }
 
-export default MonthView
+export default MonthView 
