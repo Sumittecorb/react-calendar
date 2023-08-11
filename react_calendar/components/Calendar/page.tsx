@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 'use client'
 import React, { useState } from 'react'
 import TableSection from '../TableForm/page'
@@ -10,7 +11,6 @@ const Calendar = () => {
     if (view == "Day") {
       return moment(selectedDate).format("MMMM DD YYYY")
     } else if (view == "Week") {
-      // let newSevenDate = moment(date).add(7, 'days').format("MMMM DD YYYY")
       return moment(selectedDate).format("MMM DD") + " - " + moment(selectedDate).add(7, 'days').format("MMM DD") + ", " + moment(selectedDate).format("YYYY")
     } else {
       return moment(selectedDate).format("MMMM YYYY")

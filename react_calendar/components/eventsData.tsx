@@ -1,53 +1,53 @@
-  
-  export interface EventData {
-    title?: string;
-    start?: Date;
-    end?: Date;
-    allDay?:boolean;
-    desc?:string
-  }
-  
-  const demoEvents:EventData[] = 
-  [ 
+
+export interface EventData {
+  title?: string;
+  start?: any;
+  end?: any;
+  allDay?: boolean;
+  desc?: string
+}
+
+const demoEvents: EventData[] =
+  [
     {
       'title': 'All Day Event very long title',
       'allDay': true,
-      'start': new Date(2015, 3, 0),
-      'end': new Date(2015, 3, 1)
+      'start': new Date(2023, 8, 11, 0, 0, 0),
+      'end': new Date(2023, 8, 11, 0, 0, 0)
     },
     {
       'title': 'Long Event',
-      'start': new Date(2015, 3, 7),
-      'end': new Date(2015, 3, 10)
+      'start': new Date(2023, 8, 11, 0, 0, 0),
+      'end': new Date(2023, 8, 11, 0, 0, 0)
     },
-  
+
     {
       'title': 'DTS STARTS',
-      'start': new Date(2016, 2, 13, 0, 0, 0),
-      'end': new Date(2016, 2, 20, 0, 0, 0)
+      'start': new Date(2023, 8, 13, 0, 0, 0),
+      'end': new Date(2023, 8, 20, 0, 0, 0)
     },
-  
+
     {
       'title': 'DTS ENDS',
-      'start': new Date(2016, 10, 6, 0, 0, 0),
-      'end': new Date(2016, 10, 13, 0, 0, 0)
+      'start': new Date(2023, 10, 6, 0, 0, 0),
+      'end': new Date(2023, 10, 13, 0, 0, 0)
     },
-  
+
     {
       'title': 'Some Event',
-      'start': new Date(2015, 3, 9, 0, 0, 0),
-      'end': new Date(2015, 3, 9, 0, 0, 0)
+      'start': new Date(2023, 3, 9, 0, 0, 0),
+      'end': new Date(2023, 3, 9, 0, 0, 0)
     },
     {
       'title': 'Conference',
-      'start': new Date(2015, 3, 11),
-      'end': new Date(2015, 3, 13),
+      'start': new Date(2023, 8, 10, 0, 0, 0),
+      'end': new Date(2023, 8, 10, 0, 0, 0),
       desc: 'Big conference for important people'
     },
     {
       'title': 'Meeting',
-      'start': new Date(2015, 3, 12, 10, 30, 0, 0),
-      'end': new Date(2015, 3, 12, 12, 30, 0, 0),
+      'start': new Date(2023, 3, 12, 10, 30, 0),
+      'end': new Date(2023, 3, 12, 12, 30, 0),
       desc: 'Pre-meeting meeting, to prepare for the meeting'
     },
     // {
@@ -98,4 +98,4 @@
     //   'end': new Date(2015, 3, 22, 2, 0, 0)
     // }
   ]
-  export default demoEvents
+export default demoEvents
