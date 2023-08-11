@@ -1,10 +1,10 @@
 'use client'
+import { TimeSlots } from '@/components/TimeSlots'
 import demoEvents from '@/components/eventsData'
 import moment from 'moment'
 import React from 'react'
 
 const WeekView = ({ selectedDate }: any) => {
-    const allData = ["12Am", "1Am", "2AM", "3Am", "4Am", "5Am", "6Am", "7Am", "8Am", "9Am", "10Am", "11Am", "12Pm", "1Pm", "2PM", "3Pm", "4Pm", "5Pm", "6Pm", "7Pm", "8Pm", "9Pm", "10Pm", "11Pm"]
     let daysDate = [];
     for (let i = 0; i <= 6; i++) {
         let formateDate = new Date(selectedDate); // here i'm using dynamic date coming from props
@@ -29,7 +29,7 @@ const WeekView = ({ selectedDate }: any) => {
                 </tr>
             </thead>
             <tbody >
-                {allData?.map((item, index) => {
+                {TimeSlots?.map((item, index) => {
                     return (
                         <tr key={index} className='border border-gray-200'>
                             <td className='border border-gray-200 text-center'>{item}</td>  {/* This is for time section constant*/}
