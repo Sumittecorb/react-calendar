@@ -41,8 +41,7 @@ const MonthView = ({ selectedDate }: any) => {
         const dates = generateDates(firstDayOfMonth, 42);
         setDayList(dates)
     }
-    console.log(dayList, "dayList");
-    console.log("new Date", new Date());
+   
 
     return (
         <>
@@ -70,7 +69,6 @@ const MonthView = ({ selectedDate }: any) => {
                         )
                     }
                 })
-
                 }
             </div >
         </>
