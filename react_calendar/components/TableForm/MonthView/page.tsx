@@ -41,7 +41,6 @@ const MonthView = ({ selectedDate }: any) => {
         const dates = generateDates(firstDayOfMonth, 42);
         setDayList(dates)
     }
-   
 
     return (
         <>
@@ -50,14 +49,14 @@ const MonthView = ({ selectedDate }: any) => {
             </div>
             <div className='grid grid-cols-7 gap-0'>
                 {dayList?.map((day: any, index: any) => {
-
-                    if (moment(day.date).format("YYYY/MM/DD") == moment(new Date()).format("YYYY/MM/DD")) {
+                    let _date1 = moment(day.date).format("YYYY/MM/DD")
+                    const array1 = demoEvents?.find((events: any) => moment(events?.start).format("YYYY/MM/DD") == _date1)
+                    if (array1) {
                         return (
                             <div key={index} className={` ${day?.isEnable ? "" : "text-slate-400"}  border border-slate-200 h-32 `}
                             >
                                 <h3 className='text-right'>{moment(day?.date?.toDateString()).format("DD")}</h3>
-
-                                {/* {demoEvents?.map((eventDate: any, index: any) => { return (moment(day.date).format("YYYY/MM/DD") == moment(eventDate?.start).format("YYYY/MM/DD") ? <p key={index}> {eventDate?.title}</p> : console.log(">>>>PPPPPPPPPPPPPP<<", moment(day.date).format("YYYY/MM/DD"), moment(eventDate?.start).format("YYYY/MM/DD"))) })} */}
+                                <p>{array1?.title}</p>
                             </div>
                         )
                     } else {

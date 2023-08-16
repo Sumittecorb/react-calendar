@@ -25,8 +25,9 @@ const SingleDayView = ({ selectedDate }: any) => {
             <td className='border border-gray-200 w-32 text-center'>{hour}:00</td>
             <td className='border border-gray-200 text-center'>
               {demoEvents?.map((event: any, index) => {
-                const eventStartHour = event?.start.getHours();
-                const eventEndHour = event?.end.getHours();
+                event = moment(event).format("YYYY/MM/DD")
+                const eventStartHour = event?.start?.getHours();
+                const eventEndHour = event?.end?.getHours();
                 if (eventStartHour <= hour && hour < eventEndHour) {
                   return <div key={index}>{event.title}</div>;
                 }
