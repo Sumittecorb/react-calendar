@@ -35,8 +35,8 @@ const demoEvents: EventData[] =
 
     {
       'title': 'Some Event',
-      'start': "2023, 3, 9",
-      'end': "2023, 3, 9"    
+      'start': "2023, 9, 9",
+      'end': "2023, 9, 9"    
     },
     {
       'title': 'Conference',

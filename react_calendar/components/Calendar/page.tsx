@@ -3,8 +3,9 @@
 import React, { useState } from 'react'
 import TableSection from '../TableForm/page'
 import moment from 'moment'
-
+import { useRouter } from 'next/navigation'
 const Calendar = () => {
+  const route = useRouter()
   const [view, setView] = useState("Week")
   const [selectedDate, setSelectedDate] = useState<any>(new Date())
   const handleDate = () => {
@@ -50,7 +51,9 @@ const Calendar = () => {
       setSelectedDate(new Date())
     }
   }
-
+  const handleAddEvent = () => {
+    route.push("/AddNewEvents")
+  }
   return (
     <>
       <div className='flex g-slate-400 w-full mt-5 relative'>
@@ -76,6 +79,9 @@ const Calendar = () => {
               className={`px-7 xss:px-2 py-2  rounded-md ml-5  hover:bg-orange-400 ${view == "Week" ? "bg-orange-400 border border-slate-100 " : "border border-orange-200 bg-slate-100"}`}>Week</button>
             <button onClick={() => { setView("Day") }}
               className={`px-7 xss:px-2 py-2  rounded-md ml-5  hover:bg-orange-400 ${view == "Day" ? "bg-orange-400 border border-slate-100 " : "border border-orange-200 bg-slate-100"}`}>Day</button>
+
+            <button onClick={() => { handleAddEvent() }}
+              className="px-7 xss:px-2 py-2  rounded-md ml-5  hover:bg-orange-400  border border-orange-200 bg-slate-100">+ Add Events</button>
           </div>
         </div>
       </div>
