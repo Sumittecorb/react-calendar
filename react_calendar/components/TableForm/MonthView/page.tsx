@@ -3,11 +3,16 @@ import moment from 'moment';
 import React, { useEffect, useState } from 'react'
 
 const MonthView = ({ selectedDate }: any) => {
+
     let weekdayData = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     const [dayList, setDayList] = useState<any>([])
-
+    const [eventsData, setEventsData] = useState<any>([])
     useEffect(() => {
         getDateList(selectedDate)
+        if (localStorage.eventsData) {
+            let newData = JSON.parse(localStorage.eventsData)
+            setEventsData(newData)
+        }
     }, [selectedDate])
     function generateDates(startDate: any, numDays: any) {
         const dates = [];
@@ -24,6 +29,7 @@ const MonthView = ({ selectedDate }: any) => {
             const dateObject = {
                 date: new Date(currentDate),
                 isEnable: currentDate.getMonth() === startDate.getMonth(),
+                backGround: handleCheckFunction()?.includes(moment(currentDate).format("YYYY-MM-DD")) ? true : false
             };
             dates.push(dateObject);
             currentDate = new Date(currentDate.getTime() + oneDayInMilliseconds);
@@ -41,6 +47,31 @@ const MonthView = ({ selectedDate }: any) => {
         const dates = generateDates(firstDayOfMonth, 42);
         setDayList(dates)
     }
+    //**************** here i'm finding all the day between start and end date ******************************** */
+    function getDates(startDate: any, endDate: any) {
+        const dateArray = [];
+        const currentDate = new Date(startDate);
+
+        while (currentDate <= endDate) {
+            dateArray.push(new Date(currentDate));
+            currentDate.setDate(currentDate.getDate() + 1);
+        }
+
+        return dateArray;
+    }
+
+    const startDate = new Date('2023-08-22');
+    const endDate = new Date('2023-08-26');
+
+    const handleCheckFunction = () => {
+        const datesInRange = getDates(startDate, endDate);
+        for (const date of datesInRange) {
+            let newDate = date.toDateString()
+            return moment(newDate).format("YYYY-MM-DD")
+            // console.log(moment(newDate).format("YYYY-MM-DD"));
+        }
+    }
+    // console.log("handleCheckFunction", handleCheckFunction());
 
     return (
         <>
@@ -50,18 +81,19 @@ const MonthView = ({ selectedDate }: any) => {
             <div className='grid grid-cols-7 gap-0'>
                 {dayList?.map((day: any, index: any) => {
                     let _date1 = moment(day.date).format("YYYY/MM/DD")
-                    const array1 = demoEvents?.find((events: any) => moment(events?.start).format("YYYY/MM/DD") == _date1)
+                    const array1 = eventsData?.find((events: any) => (moment(events?.startDate).format("YYYY/MM/DD") || moment(events?.endDate).format("YYYY/MM/DD")) == _date1)
                     if (array1) {
                         return (
-                            <div key={index} className={` ${day?.isEnable ? "" : "text-slate-400"}  border border-slate-200 h-32 `}
+                            <div key={index} className={` ${day?.isEnable ? "" : "text-slate-400"}  border border-slate-200 h-32 overflow-hidden ${day?.backGround ? "bg-blue-600" : ""}`}
                             >
                                 <h3 className='text-right'>{moment(day?.date?.toDateString()).format("DD")}</h3>
-                                <p>{array1?.title}</p>
+                                <p className=''>{array1?.title}</p>
+                                <p className=''>{array1?.description}</p>
                             </div>
                         )
                     } else {
                         return (
-                            <div key={index} className={` ${day?.isEnable ? "" : "text-slate-400"}  border border-slate-200 h-32 `}
+                            <div key={index} className={` ${day?.isEnable ? "" : "text-slate-400"}  border border-slate-200 h-32  ${day?.backGround ? "bg-blue-600" : ""} `}
                             >
                                 <h3 className='text-right'>{moment(day?.date?.toDateString()).format("DD")}</h3>
                             </div>
@@ -69,7 +101,7 @@ const MonthView = ({ selectedDate }: any) => {
                     }
                 })
                 }
-            </div >
+            </div>
         </>
     )
 }
