@@ -1,3 +1,4 @@
+import demoEvents from '@/components/eventsData';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react'
 
@@ -47,8 +48,28 @@ const MonthView = ({ selectedDate }: any) => {
                 {weekdayData?.map((item, index) => <p key={index} className=' text-center border border-slate-200'>{item}</p>)}
             </div>
             <div className='grid grid-cols-7 gap-0'>
-                {dayList?.map((day: any, index: any) => <div key={index} className={` ${day?.isEnable ? "" : "text-slate-400"}  border border-slate-200 h-32 text-right`}>{moment(day?.date?.toDateString()).format("DD")}</div>)}
-            </div>
+                {dayList?.map((day: any, index: any) => {
+                    let _date1 = moment(day.date).format("YYYY/MM/DD")
+                    const array1 = demoEvents?.find((events: any) => moment(events?.start).format("YYYY/MM/DD") == _date1)
+                    if (array1) {
+                        return (
+                            <div key={index} className={` ${day?.isEnable ? "" : "text-slate-400"}  border border-slate-200 h-32 `}
+                            >
+                                <h3 className='text-right'>{moment(day?.date?.toDateString()).format("DD")}</h3>
+                                <p>{array1?.title}</p>
+                            </div>
+                        )
+                    } else {
+                        return (
+                            <div key={index} className={` ${day?.isEnable ? "" : "text-slate-400"}  border border-slate-200 h-32 `}
+                            >
+                                <h3 className='text-right'>{moment(day?.date?.toDateString()).format("DD")}</h3>
+                            </div>
+                        )
+                    }
+                })
+                }
+            </div >
         </>
     )
 }
