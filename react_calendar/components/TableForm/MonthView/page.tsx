@@ -29,7 +29,7 @@ const MonthView = ({ selectedDate }: any) => {
             const dateObject = {
                 date: new Date(currentDate),
                 isEnable: currentDate.getMonth() === startDate.getMonth(),
-                backGround: handleCheckFunction()?.includes(moment(currentDate).format("YYYY-MM-DD")) ? true : false
+                // backGround: handleCheckFunction()?.includes(moment(currentDate).format("YYYY-MM-DD")) ? true : false
             };
             dates.push(dateObject);
             currentDate = new Date(currentDate.getTime() + oneDayInMilliseconds);
@@ -56,23 +56,20 @@ const MonthView = ({ selectedDate }: any) => {
             dateArray.push(new Date(currentDate));
             currentDate.setDate(currentDate.getDate() + 1);
         }
+        // let newDateArr = dateArray?.map((items) => items?.toDateString())
+        let newDateArr = dateArray?.map((items) => moment(items).format("YYYY/MM/DD"))
+        // console.log("??????", newDateArr);
+        // console.log("old", dateArray);
 
-        return dateArray;
+        return newDateArr;
     }
 
-    const startDate = new Date('2023-08-22');
-    const endDate = new Date('2023-08-26');
-
-    const handleCheckFunction = () => {
-        const datesInRange = getDates(startDate, endDate);
-        for (const date of datesInRange) {
-            let newDate = date.toDateString()
-            return moment(newDate).format("YYYY-MM-DD")
-            // console.log(moment(newDate).format("YYYY-MM-DD"));
-        }
+    // here i am checking start and end dates are includes in the array then the background color is blue else nothings
+    const handleFunctionForBack = (startDate: any, endDate: any) => {
+        startDate = new Date(startDate);
+        endDate = new Date(endDate);
+        return getDates(startDate, endDate)
     }
-    // console.log("handleCheckFunction", handleCheckFunction());
-
     return (
         <>
             <div className='grid grid-cols-7 gap-0'>
@@ -81,10 +78,14 @@ const MonthView = ({ selectedDate }: any) => {
             <div className='grid grid-cols-7 gap-0'>
                 {dayList?.map((day: any, index: any) => {
                     let _date1 = moment(day.date).format("YYYY/MM/DD")
-                    const array1 = eventsData?.find((events: any) => (moment(events?.startDate).format("YYYY/MM/DD") || moment(events?.endDate).format("YYYY/MM/DD")) == _date1)
+                    // const array1 = eventsData?.find((events: any) => (moment(events?.startDate).format("YYYY/MM/DD") == _date1))
+                    const array1 = eventsData?.find((events: any) => handleFunctionForBack(moment(events?.startDate).format("YYYY/MM/DD"), moment(events?.endDate).format("YYYY/MM/DD"))?.includes(_date1))
+                    // console.log("array1", array1);
                     if (array1) {
                         return (
-                            <div key={index} className={` ${day?.isEnable ? "" : "text-slate-400"}  border border-slate-200 h-32 overflow-hidden ${day?.backGround ? "bg-blue-600" : ""}`}
+                            <div key={index}
+                                className={` ${day?.isEnable ? "" : "text-slate-400"}  border border-slate-200 h-32 overflow-hidden
+                                 ${day?.date ? "bg-sky-600 text-white" : ""}`}
                             >
                                 <h3 className='text-right'>{moment(day?.date?.toDateString()).format("DD")}</h3>
                                 <p className=''>{array1?.title}</p>
