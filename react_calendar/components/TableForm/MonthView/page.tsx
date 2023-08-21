@@ -60,7 +60,6 @@ const MonthView = ({ selectedDate }: any) => {
         let newDateArr = dateArray?.map((items) => moment(items).format("YYYY/MM/DD"))
         // console.log("??????", newDateArr);
         // console.log("old", dateArray);
-
         return newDateArr;
     }
 
