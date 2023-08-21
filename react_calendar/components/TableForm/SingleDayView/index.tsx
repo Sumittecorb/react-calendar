@@ -38,33 +38,6 @@ const SingleDayView = ({ selectedDate }: any) => {
         ))}
       </tbody>
     </table>
-    // <table className='border border-white w-full'>
-    //     <thead>
-    //         <tr className='border border-gray-200'>
-    //             <th className='border border-gray-200'></th>
-    //             <th className='border border-gray-200'>{moment(new Date(selectedDate)).format("dddd")}</th>
-    //         </tr>
-    //     </thead>
-    //     <tbody >
-    //         {TimeSlots?.map((item, index) => {
-    //             return (
-    //                 <tr  key={index} className='border border-gray-200'>
-    //                     <td  className='border border-gray-200 w-20 text-center'>{item}</td>
-    //                     {eventData?.map((item, index) => {
-    //                         console.log("items", item.start, selectedEventDate);
-    //                         if (item?.start !== selectedEventDate) {
-    //                             return (
-    //                                 <td key={index} rowSpan={0} colSpan={0} className='border border-gray-200 text-center p-4 col-span-full '>{item.title}</td>
-    //                             )
-    //                         } else {
-    //                         }
-    //                     })}
-    //                 </tr>
-    //             )
-    //         })}
-    //         <td className='border border-gray-200 text-center p-4'>{"title"}</td>
-    //     </tbody>
-    // </table>
   )
 }
 
