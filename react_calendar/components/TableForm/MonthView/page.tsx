@@ -1,4 +1,3 @@
-import demoEvents from '@/components/eventsData';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react'
 
@@ -11,7 +10,9 @@ const MonthView = ({ selectedDate }: any) => {
         getDateList(selectedDate)
         if (localStorage.eventsData) {
             let newData = JSON.parse(localStorage.eventsData)
-            setEventsData(newData)
+            let newFormateData = newData?.map((items: any) => { return ({ ...items, backGroundLength: handleFunctionForBack(items?.startDate, items?.endDate)?.length }) })
+            console.log("newFormateData", newFormateData);
+            setEventsData(newFormateData)
         }
     }, [selectedDate])
     function generateDates(startDate: any, numDays: any) {
@@ -57,7 +58,7 @@ const MonthView = ({ selectedDate }: any) => {
             currentDate.setDate(currentDate.getDate() + 1);
         }
         // let newDateArr = dateArray?.map((items) => items?.toDateString())
-        let newDateArr = dateArray?.map((items) => moment(items).format("YYYY/MM/DD"))
+        let newDateArr = dateArray?.map((items) => moment(items).format("L"))
         // console.log("??????", newDateArr);
         // console.log("old", dateArray);
         return newDateArr;
@@ -69,6 +70,16 @@ const MonthView = ({ selectedDate }: any) => {
         endDate = new Date(endDate);
         return getDates(startDate, endDate)
     }
+    // here i'm passing mirgin pixel for every title 
+    const handlePixelInEvents = (val: any) => {
+        if (val == 1) {
+            return 30
+        } else if (val == 2) {
+            return 25
+        } else if (val == 3) {
+            return 10
+        }
+    }
     return (
         <>
             <div className='grid grid-cols-7 gap-0'>
@@ -76,20 +87,32 @@ const MonthView = ({ selectedDate }: any) => {
             </div>
             <div className='grid grid-cols-7 gap-0'>
                 {dayList?.map((day: any, index: any) => {
-                    let _date1 = moment(day.date).format("YYYY/MM/DD")
-                    // const array1 = eventsData?.find((events: any) => (moment(events?.startDate).format("YYYY/MM/DD") == _date1))
-                    const array1 = eventsData?.find((events: any) => handleFunctionForBack(moment(events?.startDate).format("YYYY/MM/DD"), moment(events?.endDate).format("YYYY/MM/DD"))?.includes(_date1))
-                    // console.log("array1", array1);
-                    if (array1) {
+
+                    let _date1 = moment(day.date).format("L")
+                    // console.log("_date1", _date1);
+
+                    const array1 = eventsData?.filter((events: any) => (moment(events?.startDate).format("L") == _date1))
+                    // const array2 = eventsData?.find((events: any) => handleFunctionForBack(moment(events?.startDate).format("YYYY/MM/DD"), moment(events?.endDate).format("YYYY/MM/DD"))?.includes(_date1))
+                    // console.log("???????", array1);
+                    if (array1?.length > 0) {
                         return (
-                            <div key={index}
-                                className={` ${day?.isEnable ? "" : "text-slate-400"}  border border-slate-200 h-32 overflow-hidden
-                                 ${day?.date ? "bg-sky-600 text-white" : ""}`}
-                            >
-                                <h3 className='text-right'>{moment(day?.date?.toDateString()).format("DD")}</h3>
-                                <p className=''>{array1?.title}</p>
-                                <p className=''>{array1?.description}</p>
-                            </div>
+                            <>
+                                {array1?.map((data: any, index: any) => {
+                                    return (
+                                        <div key={index}
+
+                                            className={`${day?.isEnable ? "" : "text-slate-400"} last-child:mt-10 border border-slate-200 h-32 w-full relative`}
+                                        >
+                                            <h3 className='text-right'>{moment(day?.date?.toDateString()).format("DD")}</h3>
+                                            <p style={{ width: `${data?.backGroundLength * 100}%`, marginTop: `${handlePixelInEvents(data?.backGroundLength)}px` }}
+                                                className={` ${day?.date ? "bg-sky-600 text-white" : ""} w-[${data?.backGroundLength * 100}%] z-10 absolute`}>
+                                                {data?.title}
+                                            </p>
+                                            {/* <p className=''>{array1?.description}</p> */}
+                                        </div>
+                                    )
+                                })}
+                            </>
                         )
                     } else {
                         return (
