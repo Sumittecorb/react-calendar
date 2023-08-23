@@ -61,11 +61,9 @@ const MonthView = ({ selectedDate }: any) => {
         // let newDateArr = dateArray?.map((items) => items?.toDateString())
         let newDateArr = dateArray?.map((items) => moment(items).format("YYYY/MM/DD"))
         // console.log("??????", newDateArr);
-        // console.log("old", dateArray);
 
         return newDateArr;
     }
-
     // here i am checking start and end dates are includes in the array then the background color is blue else nothings
     const handleFunctionForBack = (startDate: any, endDate: any) => {
         startDate = new Date(startDate);
