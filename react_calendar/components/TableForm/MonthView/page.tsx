@@ -87,28 +87,19 @@ const MonthView = ({ selectedDate }: any) => {
             </div>
             <div className='grid grid-cols-7 gap-0'>
                 {dayList?.map((day: any, index: any) => {
-
                     let _date1 = moment(day.date).format("L")
-                    // console.log("_date1", _date1);
-
                     const array1 = eventsData?.filter((events: any) => (moment(events?.startDate).format("L") == _date1))
-                    // const array2 = eventsData?.find((events: any) => handleFunctionForBack(moment(events?.startDate).format("YYYY/MM/DD"), moment(events?.endDate).format("YYYY/MM/DD"))?.includes(_date1))
-                    // console.log("???????", array1);
                     if (array1?.length > 0) {
                         return (
                             <>
                                 {array1?.map((data: any, index: any) => {
                                     return (
-                                        <div key={index}
-
-                                            className={`${day?.isEnable ? "" : "text-slate-400"} last-child:mt-10 border border-slate-200 h-32 w-full relative`}
-                                        >
+                                        <div key={index} className={`${day?.isEnable ? "" : "text-slate-400"} last-child:mt-10 border border-slate-200 h-32 w-full relative`} >
                                             <h3 className='text-right'>{moment(day?.date?.toDateString()).format("DD")}</h3>
                                             <p style={{ width: `${data?.backGroundLength * 100}%`, marginTop: `${handlePixelInEvents(data?.backGroundLength)}px` }}
                                                 className={` ${day?.date ? "bg-sky-600 text-white" : ""} w-[${data?.backGroundLength * 100}%] z-10 absolute`}>
                                                 {data?.title}
                                             </p>
-                                            {/* <p className=''>{array1?.description}</p> */}
                                         </div>
                                     )
                                 })}
@@ -116,8 +107,7 @@ const MonthView = ({ selectedDate }: any) => {
                         )
                     } else {
                         return (
-                            <div key={index} className={` ${day?.isEnable ? "" : "text-slate-400"}  border border-slate-200 h-32  ${day?.backGround ? "bg-blue-600" : ""} `}
-                            >
+                            <div key={index} className={` ${day?.isEnable ? "" : "text-slate-400"}  border border-slate-200 h-32  ${day?.backGround ? "bg-blue-600" : ""} `}  >
                                 <h3 className='text-right'>{moment(day?.date?.toDateString()).format("DD")}</h3>
                             </div>
                         )
