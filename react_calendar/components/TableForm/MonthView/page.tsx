@@ -11,7 +11,7 @@ const MonthView = ({ selectedDate }: any) => {
         if (localStorage.eventsData) {
             let newData = JSON.parse(localStorage.eventsData)
             let newFormateData = newData?.map((items: any) => { return ({ ...items, backGroundLength: handleFunctionForBack(items?.startDate, items?.endDate)?.length }) })
-            console.log("newFormateData", newFormateData);
+            // console.log("newFormateData", newFormateData);
             setEventsData(newFormateData)
         }
     }, [selectedDate])
@@ -80,6 +80,7 @@ const MonthView = ({ selectedDate }: any) => {
             return 10
         }
     }
+
     return (
         <>
             <div className='grid grid-cols-7 gap-0'>
