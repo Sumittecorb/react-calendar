@@ -1,6 +1,5 @@
 'use client'
 import { TimeSlots } from '@/components/TimeSlots'
-import demoEvents from '@/components/eventsData'
 import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 
@@ -57,10 +56,10 @@ const WeekView = ({ selectedDate }: any) => {
         // console.log("old", dateArray);
         return newDateArr;
     }
-   
+
     return (
         <table className='border border-white w-full '>
-            <thead>
+            <thead className='sticky top-0'>
                 <tr className='border border-gray-200'>
                     <th className='border border-gray-200'></th>
                     {dayList?.map((day: any, index: any) => {
@@ -87,7 +86,10 @@ const WeekView = ({ selectedDate }: any) => {
                                                     <>
                                                         <td key={index} className='h-32 w-15 text-center border border-gray-200 relative'>
                                                             <p className='text-white bg-sky-600 h-full absolute left-0 top-0'
-                                                                style={{ width: `${events?.backGroundLength * 100}%`, height: `${events?.backGroundLength * 100}%` }}
+                                                                style={{
+                                                                    width: `${events?.backGroundLength * 100}%`,
+                                                                    //  height: `${events?.backGroundLength * 100}%`
+                                                                }}
                                                             >{events?.title}</p>
                                                         </td>
                                                     </>
