@@ -10,7 +10,14 @@ const WeekView = ({ selectedDate }: any) => {
         getDateList(selectedDate)
         if (localStorage.eventsData) {
             let newData = JSON.parse(localStorage.eventsData)
-            let newFormateData = newData?.map((items: any) => { return ({ ...items, backGroundLength: handleFunctionForBack(items?.startDate, items?.endDate)?.length }) })
+            // let newFormateData = newData?.map((items: any) => { return ({ ...items, backGroundLength: handleFunctionForBack(items?.startDate, items?.endDate)?.length }) })
+            let newFormateData = newData?.map((items: any) => {
+                return ({
+                    ...items, backGroundLength: handleFunctionForBack(items?.startDate, items?.endDate)?.length,
+                    BackGroundHeight: handleTimeDuration(items?.startTime, items?.endTime)
+                })
+            })
+
             // console.log("newFormateData", newFormateData);
             setEventsData(newFormateData)
         }
@@ -57,6 +64,15 @@ const WeekView = ({ selectedDate }: any) => {
         return newDateArr;
     }
 
+    const handleTimeDuration = (startTime: any, endTime: any) => {
+        let differenceInHr = endTime?.substring(0, 2) - startTime?.substring(0, 2)
+        let diffInMin = endTime?.replace(":", "") - startTime?.replace(":", "")
+        let timeInPercent = diffInMin / 100
+        // console.log("start", timeInPercent);
+        return timeInPercent;
+    }
+
+
     return (
         <table className='border border-white w-full '>
             <thead className='sticky top-0'>
@@ -88,7 +104,7 @@ const WeekView = ({ selectedDate }: any) => {
                                                             <p className='text-white bg-sky-600 h-full absolute left-0 top-0'
                                                                 style={{
                                                                     width: `${events?.backGroundLength * 100}%`,
-                                                                    //  height: `${events?.backGroundLength * 100}%`
+                                                                    height: `${events?.BackGroundHeight * 100}%`
                                                                 }}
                                                             >{events?.title}</p>
                                                         </td>
