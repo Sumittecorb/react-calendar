@@ -74,7 +74,7 @@ const WeekView = ({ selectedDate }: any) => {
 
 
     return (
-        <table className='border border-white w-full '>
+        <table className='border border-white w-full'>
             <thead className='sticky top-0'>
                 <tr className='border border-gray-200'>
                     <th className='border border-gray-200'></th>
@@ -98,6 +98,8 @@ const WeekView = ({ selectedDate }: any) => {
                                     return (
                                         <>
                                             {newArr?.map((events: any, index: any) => {
+                                                // console.log("BackGroundHeight", events.BackGroundHeight);
+
                                                 return (
                                                     <>
                                                         <td key={index} className='h-32 w-15 text-center border border-gray-200 relative'>
