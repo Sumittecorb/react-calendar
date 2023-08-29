@@ -1,6 +1,6 @@
 import { TimeSlots } from '@/components/TimeSlots'
 import moment from 'moment'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import demoEvents from '@/components/eventsData'
 const SingleDayView = ({ selectedDate }: any) => {
 
@@ -10,6 +10,55 @@ const SingleDayView = ({ selectedDate }: any) => {
 
   const hours = Array.from({ length: 24 }, (_, index) => index);
   // console.log("mohit",hours);
+  // ******************* implement logic for todays case**************//
+
+  const [eventsData, setEventsData] = useState<any>([])
+  useEffect(() => {
+    // getDateList(selectedDate)
+    if (localStorage.eventsData) {
+      let newData = JSON.parse(localStorage.eventsData)
+      let newFormateData = newData?.map((items: any) => {
+        return ({
+          ...items,
+          backGroundLength: handleFunctionForBack(items?.startDate, items?.endDate)?.length,
+          BackGroundHeight: handleTimeDuration(items?.startTime, items?.endTime)
+        })
+      })
+      // console.log("newFormateData", newFormateData);
+      setEventsData(newFormateData)
+    }
+  }, [selectedDate])
+
+  // here i am checking start and end dates are includes in the array then the background color is blue else nothings
+  const handleFunctionForBack = (startDate: any, endDate: any) => {
+    startDate = new Date(startDate);
+    endDate = new Date(endDate);
+    return getDates(startDate, endDate)
+  }
+  //**************** here i'm finding all the day between start and end date ******************************** */
+  function getDates(startDate: any, endDate: any) {
+    const dateArray = [];
+    const currentDate = new Date(startDate);
+
+    while (currentDate <= endDate) {
+      dateArray.push(new Date(currentDate));
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+    // let newDateArr = dateArray?.map((items) => items?.toDateString())
+    let newDateArr = dateArray?.map((items) => moment(items).format("L"))
+    // console.log("??????", newDateArr);
+    // console.log("old", dateArray);
+    return newDateArr;
+  }
+
+  const handleTimeDuration = (startTime: any, endTime: any) => {
+    let differenceInHr = endTime?.substring(0, 2) - startTime?.substring(0, 2)
+    let diffInMin = endTime?.replace(":", "") - startTime?.replace(":", "")
+    let timeInPercent = diffInMin / 100
+    // console.log("start", timeInPercent);
+    return timeInPercent;
+  }
+  // console.log("eventsData", selectedDate);
 
   return (
     <table className='border border-white w-full'>
@@ -24,7 +73,30 @@ const SingleDayView = ({ selectedDate }: any) => {
           <tr key={hour} className='border border-gray-200'>
             <td className='border border-gray-200 w-32 text-center'>{hour}:00</td>
             <td className='border border-gray-200 text-center'>
-              {demoEvents?.map((event: any, index) => {
+
+              {eventsData?.map((items: any, index: any) => {
+                let _date1 = moment(items?.startDate).format("L")
+                let _todaysDate = moment(selectedDate).format("L")
+                //  const array1 = eventsData?.filter((events: any) => (moment(events?.startDate).format("L") == _date1))
+                if (_date1 == _todaysDate) {
+                  // console.log("items", items);
+
+                  return <div key={index}
+
+                    className='border border-slate-200 text-slate-400 '>
+                    <p style={{ height: `${items?.BackGroundHeight}%` }} className='bg-blue-600 text-white'> {items.title}
+                    </p>
+                  </div>
+                } else {
+                  return <div key={index}></div>
+                }
+
+              })}
+
+
+
+
+              {/* {demoEvents?.map((event: any, index) => {
                 event = moment(event).format("YYYY/MM/DD")
                 const eventStartHour = event?.start?.getHours();
                 const eventEndHour = event?.end?.getHours();
@@ -32,7 +104,7 @@ const SingleDayView = ({ selectedDate }: any) => {
                   return <div key={index}>{event.title}</div>;
                 }
                 return null;
-              })}
+              })} */}
             </td>
           </tr>
         ))}
