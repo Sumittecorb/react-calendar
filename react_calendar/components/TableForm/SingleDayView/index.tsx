@@ -59,6 +59,10 @@ const SingleDayView = ({ selectedDate }: any) => {
     return timeInPercent;
   }
   // console.log("eventsData", selectedDate);
+  // let _date1 = moment(items?.startDate).format("L")
+  let _todaysDate = moment(selectedDate).format("L")
+  const array1 = eventsData?.find((events: any) => (moment(events?.startDate).format("L") == _todaysDate))
+  console.log("today", array1);
 
   return (
     <table className='border border-white w-full'>
@@ -74,15 +78,13 @@ const SingleDayView = ({ selectedDate }: any) => {
             <td className='border border-gray-200 w-32 text-center'>{hour}:00</td>
             <td className='border border-gray-200 text-center'>
 
-              {eventsData?.map((items: any, index: any) => {
+              {/* {eventsData?.map((items: any, index: any) => {
                 let _date1 = moment(items?.startDate).format("L")
                 let _todaysDate = moment(selectedDate).format("L")
                 //  const array1 = eventsData?.filter((events: any) => (moment(events?.startDate).format("L") == _date1))
                 if (_date1 == _todaysDate) {
                   // console.log("items", items);
-
                   return <div key={index}
-
                     className='border border-slate-200 text-slate-400 '>
                     <p style={{ height: `${items?.BackGroundHeight}%` }} className='bg-blue-600 text-white'> {items.title}
                     </p>
@@ -90,21 +92,19 @@ const SingleDayView = ({ selectedDate }: any) => {
                 } else {
                   return <div key={index}></div>
                 }
+              })} 
+              
+              */} 
 
-              })}
-
-
-
-
-              {/* {demoEvents?.map((event: any, index) => {
-                event = moment(event).format("YYYY/MM/DD")
-                const eventStartHour = event?.start?.getHours();
-                const eventEndHour = event?.end?.getHours();
-                if (eventStartHour <= hour && hour < eventEndHour) {
-                  return <div key={index}>{event.title}</div>;
-                }
-                return null;
-              })} */}
+              {hour == array1?.startTime?.substring(0, 2) ? 
+              <div
+                className='border border-slate-200 text-slate-400'>
+                <p
+                  style={{ height: `${array1?.BackGroundHeight * 3}%` }}
+                  className='bg-blue-600 text-white absolute w-[73%]'>
+                  {array1?.title}
+                </p>
+              </div> : ""}
             </td>
           </tr>
         ))}
