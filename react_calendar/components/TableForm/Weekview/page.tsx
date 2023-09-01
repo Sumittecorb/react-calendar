@@ -82,7 +82,7 @@ const WeekView = ({ selectedDate }: any) => {
                         return (
                             <th key={index} className='border border-gray-200 text-center'>{day?.datesForHead}</th>
                         )
-                    })}
+                    })} 
                 </tr>
             </thead>
             <tbody >
