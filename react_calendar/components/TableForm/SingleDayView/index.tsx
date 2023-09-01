@@ -1,12 +1,6 @@
-import { TimeSlots } from '@/components/TimeSlots'
 import moment from 'moment'
 import React, { useEffect, useState } from 'react'
-import demoEvents from '@/components/eventsData'
 const SingleDayView = ({ selectedDate }: any) => {
-
-  let eventData = demoEvents?.map((date) => { return ({ ...date, start: moment(date.start).format("YYYY/MM/DD"), end: moment(date.end).format("YYYY/MM/DD") }) })
-  let selectedEventDate = moment(selectedDate).format("YYYY/MM/DD")
-  // console.log("event",eventData);
 
   const hours = Array.from({ length: 24 }, (_, index) => index);
   // console.log("mohit",hours);
@@ -44,10 +38,7 @@ const SingleDayView = ({ selectedDate }: any) => {
       dateArray.push(new Date(currentDate));
       currentDate.setDate(currentDate.getDate() + 1);
     }
-    // let newDateArr = dateArray?.map((items) => items?.toDateString())
     let newDateArr = dateArray?.map((items) => moment(items).format("L"))
-    // console.log("??????", newDateArr);
-    // console.log("old", dateArray);
     return newDateArr;
   }
 
@@ -58,11 +49,9 @@ const SingleDayView = ({ selectedDate }: any) => {
     // console.log("start", timeInPercent);
     return timeInPercent;
   }
-  // console.log("eventsData", selectedDate);
-  // let _date1 = moment(items?.startDate).format("L")
+
   let _todaysDate = moment(selectedDate).format("L")
-  const array1 = eventsData?.find((events: any) => (moment(events?.startDate).format("L") == _todaysDate))
-  console.log("today", array1);
+  const array1 = eventsData?.filter((events: any) => (moment(events?.startDate).format("L") == _todaysDate))
 
   return (
     <table className='border border-white w-full'>
@@ -78,33 +67,25 @@ const SingleDayView = ({ selectedDate }: any) => {
             <td className='border border-gray-200 w-32 text-center'>{hour}:00</td>
             <td className='border border-gray-200 text-center'>
 
-              {/* {eventsData?.map((items: any, index: any) => {
-                let _date1 = moment(items?.startDate).format("L")
-                let _todaysDate = moment(selectedDate).format("L")
-                //  const array1 = eventsData?.filter((events: any) => (moment(events?.startDate).format("L") == _date1))
-                if (_date1 == _todaysDate) {
-                  // console.log("items", items);
-                  return <div key={index}
-                    className='border border-slate-200 text-slate-400 '>
-                    <p style={{ height: `${items?.BackGroundHeight}%` }} className='bg-blue-600 text-white'> {items.title}
-                    </p>
-                  </div>
-                } else {
-                  return <div key={index}></div>
-                }
-              })} 
-              
-              */} 
-
-              {hour == array1?.startTime?.substring(0, 2) ? 
-              <div
-                className='border border-slate-200 text-slate-400'>
-                <p
-                  style={{ height: `${array1?.BackGroundHeight * 3}%` }}
-                  className='bg-blue-600 text-white absolute w-[73%]'>
-                  {array1?.title}
-                </p>
-              </div> : ""}
+                 { array1?.map((item: any, index: any) => {
+                  if (item?.startTime?.substring(0, 2) == hour) {
+                    return (
+                      <div key={index}
+                        className='border border-slate-200 text-slate-400'>
+                        <p
+                          style={{ height: `${item?.BackGroundHeight * 3}%` }}
+                          className='bg-blue-600 text-white absolute w-[73%]'>
+                          {item?.title}
+                        </p>
+                      </div>
+                    )
+                  } else {
+                    <div key={index}
+                      className='border border-slate-200 text-slate-400'>
+                    </div>
+                  }
+                })
+              }
             </td>
           </tr>
         ))}
