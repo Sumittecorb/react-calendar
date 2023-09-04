@@ -1,4 +1,5 @@
 'use client'
+import { handleFunctionForBack, handleTimeDuration } from '@/components/CommenFunction/page'
 import { TimeSlots } from '@/components/TimeSlots'
 import moment from 'moment'
 import React, { useEffect, useState } from 'react'
@@ -10,15 +11,12 @@ const WeekView = ({ selectedDate }: any) => {
         getDateList(selectedDate)
         if (localStorage.eventsData) {
             let newData = JSON.parse(localStorage.eventsData)
-            // let newFormateData = newData?.map((items: any) => { return ({ ...items, backGroundLength: handleFunctionForBack(items?.startDate, items?.endDate)?.length }) })
             let newFormateData = newData?.map((items: any) => {
                 return ({
                     ...items, backGroundLength: handleFunctionForBack(items?.startDate, items?.endDate)?.length,
                     BackGroundHeight: handleTimeDuration(items?.startTime, items?.endTime)
                 })
             })
-
-            // console.log("newFormateData", newFormateData);
             setEventsData(newFormateData)
         }
     }, [selectedDate])
@@ -42,37 +40,6 @@ const WeekView = ({ selectedDate }: any) => {
         setDayList(daysDate)
     }
 
-    // here i am checking start and end dates are includes in the array then the background color is blue else nothings
-    const handleFunctionForBack = (startDate: any, endDate: any) => {
-        startDate = new Date(startDate);
-        endDate = new Date(endDate);
-        return getDates(startDate, endDate)
-    }
-    //**************** here i'm finding all the day between start and end date ******************************** */
-    function getDates(startDate: any, endDate: any) {
-        const dateArray = [];
-        const currentDate = new Date(startDate);
-
-        while (currentDate <= endDate) {
-            dateArray.push(new Date(currentDate));
-            currentDate.setDate(currentDate.getDate() + 1);
-        }
-        // let newDateArr = dateArray?.map((items) => items?.toDateString())
-        let newDateArr = dateArray?.map((items) => moment(items).format("L"))
-        // console.log("??????", newDateArr);
-        // console.log("old", dateArray);
-        return newDateArr;
-    }
-
-    const handleTimeDuration = (startTime: any, endTime: any) => {
-        let differenceInHr = endTime?.substring(0, 2) - startTime?.substring(0, 2)
-        let diffInMin = endTime?.replace(":", "") - startTime?.replace(":", "")
-        let timeInPercent = diffInMin / 100
-        // console.log("start", timeInPercent);
-        return timeInPercent;
-    }
-
-
     return (
         <table className='border border-white w-full'>
             <thead className='sticky top-0'>
@@ -82,7 +49,7 @@ const WeekView = ({ selectedDate }: any) => {
                         return (
                             <th key={index} className='border border-gray-200 text-center'>{day?.datesForHead}</th>
                         )
-                    })} 
+                    })}
                 </tr>
             </thead>
             <tbody >
@@ -93,35 +60,50 @@ const WeekView = ({ selectedDate }: any) => {
                             {dayList?.map((day: any, index: any) => {
                                 let newArr = eventsData?.filter((item: any) => (moment(item?.startDate).format("L") == day?.datesForEvents))
                                 let _checkTime = newArr?.filter((time: any) => (time?.startTime?.substring(0, 2) == Time?.substring(0, 2)))
-                                // console.log("_checkTime", _checkTime);
-                                if (newArr?.length > 0 && _checkTime?.length > 0) {
-                                    return (
-                                        <>
-                                            {newArr?.map((events: any, index: any) => {
-                                                // console.log("BackGroundHeight", events.BackGroundHeight);
-
-                                                return (
-                                                    <>
-                                                        <td key={index} className='h-32 w-15 text-center border border-gray-200 relative'>
-                                                            <p className='text-white bg-sky-600 h-full absolute left-0 top-0'
-                                                                style={{
-                                                                    width: `${events?.backGroundLength * 100}%`,
-                                                                    height: `${events?.BackGroundHeight * 100}%`
-                                                                }}
-                                                            >{events?.title}</p>
-                                                        </td>
-                                                    </>
-                                                )
-                                            })}
-                                        </>
-                                    )
-                                } else {
-                                    return (
-                                        <>
-                                            <td key={index} className='h-32 w-15 text-center border border-gray-200 relative'> </td>
-                                        </>
-                                    )
-                                }
+                                return (
+                                    <>
+                                        <td key={index} className='h-32 w-15 text-center border border-gray-200 relative'>
+                                            {newArr?.length > 0 && _checkTime?.length > 0 &&
+                                                newArr?.map((events: any, index: any) => {
+                                                    return (
+                                                        <p key={index}
+                                                            className='text-white bg-sky-600 h-full absolute left-0 top-0'
+                                                            style={{
+                                                                width: `${events?.backGroundLength * 100}%`,
+                                                                height: `${events?.BackGroundHeight * 100}%`
+                                                            }}
+                                                        >{events?.title}
+                                                        </p>)
+                                                })}
+                                        </td>
+                                    </>
+                                )
+                                // if (newArr?.length > 0 && _checkTime?.length > 0) {
+                                //     return (
+                                //         <>
+                                //             {newArr?.map((events: any, index: any) => {
+                                //                 return (
+                                //                     <>
+                                //                         <td key={index} className='h-32 w-15 text-center border border-gray-200 relative'>
+                                //                             <p className='text-white bg-sky-600 h-full absolute left-0 top-0'
+                                //                                 style={{
+                                //                                     width: `${events?.backGroundLength * 100}%`,
+                                //                                     height: `${events?.BackGroundHeight * 100}%`
+                                //                                 }}
+                                //                             >{events?.title}</p>
+                                //                         </td>
+                                //                     </>
+                                //                 )
+                                //             })}
+                                //         </>
+                                //     )
+                                // } else {
+                                //     return (
+                                //         <>
+                                //             <td key={index} className='h-32 w-15 text-center border border-gray-200 relative'> </td>
+                                //         </>
+                                //     )
+                                // }
 
                             })}
                         </tr>

@@ -1,3 +1,4 @@
+import { handleFunctionForBack } from '@/components/CommenFunction/page';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react'
 
@@ -10,8 +11,12 @@ const MonthView = ({ selectedDate }: any) => {
         getDateList(selectedDate)
         if (localStorage.eventsData) {
             let newData = JSON.parse(localStorage.eventsData)
-            let newFormateData = newData?.map((items: any) => { return ({ ...items, backGroundLength: handleFunctionForBack(items?.startDate, items?.endDate)?.length }) })
-            // console.log("newFormateData", newFormateData);
+            let newFormateData = newData?.map((items: any) => {
+                return ({
+                    ...items,
+                    backGroundLength: handleFunctionForBack(items?.startDate, items?.endDate)?.length
+                })
+            })
             setEventsData(newFormateData)
         }
     }, [selectedDate])
@@ -48,31 +53,10 @@ const MonthView = ({ selectedDate }: any) => {
         const dates = generateDates(firstDayOfMonth, 42);
         setDayList(dates)
     }
-    //**************** here i'm finding all the day between start and end date ******************************** */
-    function getDates(startDate: any, endDate: any) {
-        const dateArray = [];
-        const currentDate = new Date(startDate);
-
-        while (currentDate <= endDate) {
-            dateArray.push(new Date(currentDate));
-            currentDate.setDate(currentDate.getDate() + 1);
-        }
-        // let newDateArr = dateArray?.map((items) => items?.toDateString())
-        let newDateArr = dateArray?.map((items) => moment(items).format("L"))
-        // console.log("??????", newDateArr);
-        // console.log("old", dateArray);
-        return newDateArr;
-    }
-    // here i am checking start and end dates are includes in the array then the background color is blue else nothings
-    const handleFunctionForBack = (startDate: any, endDate: any) => {
-        startDate = new Date(startDate);
-        endDate = new Date(endDate);
-        return getDates(startDate, endDate)
-    }
     // here i'm passing mirgin pixel for every title 
     const handlePixelInEvents = (val: any) => {
         if (val == 1) {
-            return 30
+            return 50
         } else if (val == 2) {
             return 25
         } else if (val == 3) {
@@ -89,29 +73,23 @@ const MonthView = ({ selectedDate }: any) => {
                 {dayList?.map((day: any, index: any) => {
                     let _date1 = moment(day.date).format("L")
                     const array1 = eventsData?.filter((events: any) => (moment(events?.startDate).format("L") == _date1))
-                    if (array1?.length > 0) {
-                        return (
-                            <>
-                                {array1?.map((data: any, index: any) => {
+                    return (
+                        <div key={index} className={`${day?.isEnable ? "" : "text-slate-400"} last-child:mt-10 border border-slate-200 h-32 w-full relative`} >
+                            <h3 className='text-right'>{moment(day?.date?.toDateString()).format("DD")}</h3>
+                            {array1?.length > 0 &&
+                                array1?.map((data: any, index: any) => {
                                     return (
-                                        <div key={index} className={`${day?.isEnable ? "" : "text-slate-400"} last-child:mt-10 border border-slate-200 h-32 w-full relative`} >
-                                            <h3 className='text-right'>{moment(day?.date?.toDateString()).format("DD")}</h3>
-                                            <p style={{ width: `${data?.backGroundLength * 100}%`, marginTop: `${handlePixelInEvents(data?.backGroundLength)}px` }}
-                                                className={` ${day?.date ? "bg-sky-600 text-white" : ""} w-[${data?.backGroundLength * 100}%] z-10 absolute`}>
-                                                {data?.title}
-                                            </p>
-                                        </div>
+                                        <p key={index}
+                                            style={{ width: `${data?.backGroundLength * 100}%`, marginTop: `${handlePixelInEvents(data?.backGroundLength)}px` }}
+                                            className={` ${day?.date ? "bg-sky-600 text-white" : ""} w-[${data?.backGroundLength * 100}%] z-10 absolute`}
+                                        >
+                                            {data?.title}
+                                        </p>
                                     )
                                 })}
-                            </>
-                        )
-                    } else {
-                        return (
-                            <div key={index} className={` ${day?.isEnable ? "" : "text-slate-400"}  border border-slate-200 h-32  ${day?.backGround ? "bg-blue-600" : ""} `}  >
-                                <h3 className='text-right'>{moment(day?.date?.toDateString()).format("DD")}</h3>
-                            </div>
-                        )
-                    }
+
+                        </div>
+                    )
                 })
                 }
             </div>
