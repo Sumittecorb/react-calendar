@@ -1,0 +1,28 @@
+// 
+
+// if (newArr?.length > 0 && _checkTime?.length > 0) {
+                                //     return (
+                                //         <>
+                                //             {newArr?.map((events: any, index: any) => {
+                                //                 return (
+                                //                     <>
+                                //                         <td key={index} className='h-32 w-15 text-center border border-gray-200 relative'>
+                                //                             <p className='text-white bg-sky-600 h-full absolute left-0 top-0'
+                                //                                 style={{
+                                //                                     width: `${events?.backGroundLength * 100}%`,
+                                //                                     height: `${events?.BackGroundHeight * 100}%`
+                                //                                 }}
+                                //                             >{events?.title}</p>
+                                //                         </td>
+                                //                     </>
+                                //                 )
+                                //             })}
+                                //         </>
+                                //     )
+                                // } else {
+                                //     return (
+                                //         <>
+                                //             <td key={index} className='h-32 w-15 text-center border border-gray-200 relative'> </td>
+                                //         </>
+                                //     )
+                                // }
