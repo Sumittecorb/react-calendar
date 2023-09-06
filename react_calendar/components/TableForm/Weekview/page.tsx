@@ -78,7 +78,7 @@ const WeekView = ({ selectedDate }: any) => {
                                         </td>
                                     </>
                                 )
-                                
+
                             })}
                         </tr>
                     )
