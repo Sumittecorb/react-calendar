@@ -67,7 +67,7 @@ const WeekView = ({ selectedDate }: any) => {
                                                 newArr?.map((events: any, index: any) => {
                                                     return (
                                                         <p key={index}
-                                                            className='text-white bg-sky-600 h-full absolute left-0 top-0'
+                                                            className='text-white bg-sky-600 h-full absolute left-0 top-0 rounded-md'
                                                             style={{
                                                                 width: `${events?.backGroundLength * 100}%`,
                                                                 height: `${events?.BackGroundHeight * 100}%`
