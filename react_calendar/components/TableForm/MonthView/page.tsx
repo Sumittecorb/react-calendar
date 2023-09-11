@@ -14,12 +14,13 @@ const MonthView = ({ selectedDate }: any) => {
             let newFormateData = newData?.map((items: any) => {
                 return ({
                     ...items,
-                    backGroundLength: handleFunctionForBack(items?.startDate, items?.endDate)?.length
+                    backGroundLength: handleFunctionForBack(items?.startDate, items?.endDate),
                 })
             })
             setEventsData(newFormateData)
         }
     }, [selectedDate])
+    // ************************ function to get the 42 days list *****************************
     function generateDates(startDate: any, numDays: any) {
         const dates = [];
         const oneDayInMilliseconds = 24 * 60 * 60 * 1000;
@@ -42,6 +43,7 @@ const MonthView = ({ selectedDate }: any) => {
         }
         return dates;
     }
+    // *********** here we get the 42 days list of from current month  *************************
     const getDateList = (date__: any) => {
         // Get the current date
         const currentDate = new Date(date__);
@@ -53,7 +55,7 @@ const MonthView = ({ selectedDate }: any) => {
         const dates = generateDates(firstDayOfMonth, 42);
         setDayList(dates)
     }
-    // here i'm passing mirgin pixel for every title 
+    //***************** */ here i'm passing mirgin pixel for every title *************
     const handlePixelInEvents = (val: any) => {
         if (val == 1) {
             return 50
@@ -63,7 +65,6 @@ const MonthView = ({ selectedDate }: any) => {
             return 10
         }
     }
-
     return (
         <>
             <div className='grid grid-cols-7 gap-0'>
@@ -72,22 +73,28 @@ const MonthView = ({ selectedDate }: any) => {
             <div className='grid grid-cols-7 gap-0'>
                 {dayList?.map((day: any, index: any) => {
                     let _date1 = moment(day.date).format("L")
-                    const array1 = eventsData?.filter((events: any) => (moment(events?.startDate).format("L") == _date1))
+                    // const array1 = eventsData?.filter((events: any) => (moment(events?.startDate).format("L") == _date1))
+                    const array1 = eventsData?.filter((events: any) => (handleFunctionForBack(moment(events?.startDate).format("L"), moment(events?.endDate).format("L"))?.includes(_date1)))
+                    console.log("array1", array1);
+                    // console.log("day", day);    
                     return (
                         <div key={index} className={`${day?.isEnable ? "" : "text-slate-400"} last-child:mt-10 border border-slate-200 h-32 w-full relative`} >
                             <h3 className='text-right'>{moment(day?.date?.toDateString()).format("DD")}</h3>
                             {array1?.length > 0 &&
                                 array1?.map((data: any, index: any) => {
+                                    // console.log("data", data);
+                                    let newFormateDate = moment(day?.date).format("L")
                                     return (
                                         <p key={index}
-                                            style={{ width: `${data?.backGroundLength * 100}%`, marginTop: `${handlePixelInEvents(data?.backGroundLength)}px` }}
-                                            className={` ${day?.date ? "bg-sky-600 text-white rounded-md" : ""} w-[${data?.backGroundLength * 100}%] z-10 absolute`}
-                                        >
-                                            {data?.title}
+                                            style={{
+                                                width: "100%",
+                                                marginTop: `${handlePixelInEvents(data?.backGroundLength?.length)}px`
+                                            }}
+                                            className={` ${data?.backGroundLength?.includes(newFormateDate) ? "bg-sky-600 text-white rounded-md border-collapse" : ""} z-10 absolute`}>
+                                            <span className={`${moment(data?.startDate).format("L") == _date1 ? "" : "invisible"}`}>{data?.title}</span>
                                         </p>
                                     )
                                 })}
-
                         </div>
                     )
                 })
