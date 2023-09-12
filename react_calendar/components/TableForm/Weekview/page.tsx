@@ -13,7 +13,7 @@ const WeekView = ({ selectedDate }: any) => {
             let newData = JSON.parse(localStorage.eventsData)
             let newFormateData = newData?.map((items: any) => {
                 return ({
-                    ...items, backGroundLength: handleFunctionForBack(items?.startDate, items?.endDate)?.length,
+                    ...items, dayBetweenStartAndEnd: handleFunctionForBack(items?.startDate, items?.endDate),
                     BackGroundHeight: handleTimeDuration(items?.startTime, items?.endTime)
                 })
             })
@@ -39,7 +39,14 @@ const WeekView = ({ selectedDate }: any) => {
         }
         setDayList(daysDate)
     }
-
+    // *****this function is check if day is == new day then print title else hide them ****
+    const handleCheckDay = (date: any, startDate: any) => {
+        if (moment(date).format("dddd") == moment(new Date()).format("dddd") || moment(startDate).format("L") == date) {
+            return true
+        } else {
+            return false
+        }
+    }
     return (
         <table className='border border-white w-full'>
             <thead className='sticky top-0'>
@@ -58,27 +65,25 @@ const WeekView = ({ selectedDate }: any) => {
                         <tr key={index} className='border border-gray-200'>
                             <td className='border border-gray-200 text-center'>{Time}</td>  {/* This is for time section constant*/}
                             {dayList?.map((day: any, index: any) => {
-                                let newArr = eventsData?.filter((item: any) => (moment(item?.startDate).format("L") == day?.datesForEvents))
-                                let _checkTime = newArr?.filter((time: any) => (time?.startTime?.substring(0, 2) == Time?.substring(0, 2)))
+                                console.log("day", day);
+
+                                const array1 = eventsData?.filter((events: any) => (handleFunctionForBack(moment(events?.startDate).format("L"), moment(events?.endDate).format("L"))?.includes(day?.datesForEvents)))
+                                let _checkTime = array1?.filter((time: any) => (time?.startTime?.substring(0, 2) == Time?.substring(0, 2)))
                                 return (
                                     <>
                                         <td key={index} className='h-32 w-15 text-center border border-gray-200 relative'>
-                                            {newArr?.length > 0 && _checkTime?.length > 0 &&
-                                                newArr?.map((events: any, index: any) => {
+                                            {array1?.length > 0 && _checkTime?.length > 0 &&
+                                                array1?.map((events: any, index: any) => {
                                                     return (
-                                                        <p key={index}
-                                                            className='text-white bg-sky-600 h-full absolute left-0 top-0 rounded-md'
-                                                            style={{
-                                                                width: `${events?.backGroundLength * 100}%`,
-                                                                height: `${events?.BackGroundHeight * 100}%`
-                                                            }}
-                                                        >{events?.title}
+                                                        <p key={index} className='text-white bg-sky-600 h-full absolute left-0 top-0 rounded-md'
+                                                            style={{ width: `${events?.dayBetweenStartAndEnd?.includes(day?.datesForEvents) * 100}%`, height: `${events?.BackGroundHeight * 100}%` }}
+                                                        >
+                                                            <span className={`${handleCheckDay(day?.datesForEvents, events?.startDate) ? "" : "invisible"}`}>{events?.title}</span>
                                                         </p>)
                                                 })}
                                         </td>
                                     </>
                                 )
-
                             })}
                         </tr>
                     )

@@ -14,7 +14,7 @@ const MonthView = ({ selectedDate }: any) => {
             let newFormateData = newData?.map((items: any) => {
                 return ({
                     ...items,
-                    backGroundLength: handleFunctionForBack(items?.startDate, items?.endDate),
+                    dateBetweenStartAndEnd: handleFunctionForBack(items?.startDate, items?.endDate),
                 })
             })
             setEventsData(newFormateData)
@@ -65,6 +65,14 @@ const MonthView = ({ selectedDate }: any) => {
             return 10
         }
     }
+    // *****this function is check if day is sunday between start and end date so print the title again ****
+    const handleCheckIsSunday = (date: any, startDate: any) => {
+        if (moment(date).format("dddd") == "Sunday" || moment(startDate).format("L") == date) {
+            return true
+        } else {
+            return false
+        }
+    }
     return (
         <>
             <div className='grid grid-cols-7 gap-0'>
@@ -73,25 +81,18 @@ const MonthView = ({ selectedDate }: any) => {
             <div className='grid grid-cols-7 gap-0'>
                 {dayList?.map((day: any, index: any) => {
                     let _date1 = moment(day.date).format("L")
-                    // const array1 = eventsData?.filter((events: any) => (moment(events?.startDate).format("L") == _date1))
                     const array1 = eventsData?.filter((events: any) => (handleFunctionForBack(moment(events?.startDate).format("L"), moment(events?.endDate).format("L"))?.includes(_date1)))
-                    console.log("array1", array1);
-                    // console.log("day", day);    
                     return (
                         <div key={index} className={`${day?.isEnable ? "" : "text-slate-400"} last-child:mt-10 border border-slate-200 h-32 w-full relative`} >
                             <h3 className='text-right'>{moment(day?.date?.toDateString()).format("DD")}</h3>
                             {array1?.length > 0 &&
                                 array1?.map((data: any, index: any) => {
-                                    // console.log("data", data);
                                     let newFormateDate = moment(day?.date).format("L")
                                     return (
                                         <p key={index}
-                                            style={{
-                                                width: "100%",
-                                                marginTop: `${handlePixelInEvents(data?.backGroundLength?.length)}px`
-                                            }}
-                                            className={` ${data?.backGroundLength?.includes(newFormateDate) ? "bg-sky-600 text-white rounded-md border-collapse" : ""} z-10 absolute`}>
-                                            <span className={`${moment(data?.startDate).format("L") == _date1 ? "" : "invisible"}`}>{data?.title}</span>
+                                            style={{ width: "100%",marginTop: `${handlePixelInEvents(data?.dateBetweenStartAndEnd?.length)}px`}}
+                                            className={` ${data?.dateBetweenStartAndEnd?.includes(newFormateDate) ? "bg-sky-600 text-white rounded-md border-collapse" : ""} z-10 absolute`}>
+                                            <span className={`${handleCheckIsSunday(_date1, data?.startDate) ? "" : "invisible"}`}>{data?.title}</span>
                                         </p>
                                     )
                                 })}
